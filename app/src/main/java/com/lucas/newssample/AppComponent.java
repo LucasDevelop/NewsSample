@@ -1,7 +1,9 @@
 package com.lucas.newssample;
 
-import javax.inject.Singleton;
+import com.lucas.newssample.data.api.ApiService;
+import com.lucas.newssample.data.api.module.ApiServiceModule;
 
+import javax.inject.Singleton;
 import dagger.Component;
 
 /**
@@ -10,7 +12,8 @@ import dagger.Component;
  * 说明：app组件
  */
 @Singleton
-@Component(modules = AppModule.class)
+@Component(modules = {AppModule.class, ApiServiceModule.class})
 public interface AppComponent {
     App getApp();
+    ApiService getApiService();
 }

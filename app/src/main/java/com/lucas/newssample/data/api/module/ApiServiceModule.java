@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
+import dagger.Module;
 import dagger.Provides;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
@@ -17,6 +18,7 @@ import retrofit.client.OkClient;
  * 邮箱：lucas_developer@163.com
  * 说明：提供apiservice实例
  */
+@Module
 public class ApiServiceModule {
 
     //配置客户端

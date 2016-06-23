@@ -1,4 +1,4 @@
-package com.lucas.newssample;
+package com.lucas.newssample.main.widget;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+
+import com.lucas.newssample.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
