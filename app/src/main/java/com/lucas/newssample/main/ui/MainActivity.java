@@ -1,7 +1,6 @@
-package com.lucas.newssample.main.widget;
+package com.lucas.newssample.main.ui;
 
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -12,12 +11,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.lucas.newssample.App;
 import com.lucas.newssample.R;
+import com.lucas.newssample.base.ui.BaseActivity;
+import com.lucas.newssample.main.component.DaggerMainComponent;
+import com.lucas.newssample.main.module.MainModule;
+import com.lucas.newssample.main.presenter.MainPresenter;
+import com.lucas.newssample.main.view.MainView;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity<MainPresenter> implements MainView {
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
@@ -32,10 +39,13 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle drawerToggle;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initView() {
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+        DaggerMainComponent.builder()
+                .mainModule(new MainModule(this))
+                .appComponent(App.getApp(this).getAppComponent())
+                .build().inject(this);
         //设置toolbar
         setSupportActionBar(toolbar);
         drawerToggle = new ActionBarDrawerToggle(this, mainDraw, toolbar, R.string.drawer_open, R.string.drawer_close);
@@ -48,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
                     mainDraw.closeDrawers();
                     return true;
                 });
+    }
+
+    @Override
+    protected void initData() {
+        mPresenter.loadData();
     }
 
     @Override
@@ -64,4 +79,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
