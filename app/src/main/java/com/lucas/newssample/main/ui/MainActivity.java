@@ -1,11 +1,10 @@
 package com.lucas.newssample.main.ui;
 
-import android.os.Bundle;
+import android.graphics.Color;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,8 +17,6 @@ import com.lucas.newssample.main.component.DaggerMainComponent;
 import com.lucas.newssample.main.module.MainModule;
 import com.lucas.newssample.main.presenter.MainPresenter;
 import com.lucas.newssample.main.view.MainView;
-
-import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -48,21 +45,28 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                 .build().inject(this);
         //设置toolbar
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
         drawerToggle = new ActionBarDrawerToggle(this, mainDraw, toolbar, R.string.drawer_open, R.string.drawer_close);
         //同步状态
         drawerToggle.syncState();
         //关联开关
         mainDraw.addDrawerListener(drawerToggle);
-        mainNav.setNavigationItemSelectedListener(
-                item -> {
-                    mainDraw.closeDrawers();
-                    return true;
-                });
+        switch2News();
     }
 
     @Override
     protected void initData() {
         mPresenter.loadData();
+    }
+
+    @Override
+    protected void initEvent() {
+        mainNav.setNavigationItemSelectedListener(
+                item -> {
+                    mPresenter.switchNav(item.getItemId());
+                    mainDraw.closeDrawers();
+                    return true;
+                });
     }
 
     @Override
@@ -80,4 +84,23 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void switch2News() {
+        toolbar.setTitle(R.string.menu_news);
+    }
+
+    @Override
+    public void switch2Images() {
+        toolbar.setTitle(R.string.menu_img);
+    }
+
+    @Override
+    public void switch2Weather() {
+        toolbar.setTitle(R.string.menu_weather);
+    }
+
+    @Override
+    public void switch2About() {
+        toolbar.setTitle(R.string.menu_about);
+    }
 }

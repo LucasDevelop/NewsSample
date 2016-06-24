@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".main.ui.MainActivity">
+    <!--单选-->
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/menu_news"
+            android:title="@string/menu_news"
+            android:checked="true"
+            android:icon="@mipmap/ic_assessment_white_24dp"/>
+        <item
+            android:id="@+id/menu_img"
+            android:title="@string/menu_img"
+            android:icon="@mipmap/ic_image_white_24dp"/>
+        <item
+            android:id="@+id/menu_weather"
+            android:title="@string/menu_weather"
+            android:icon="@mipmap/ic_date_range_white_24dp"/>
+        <item
+            android:id="@+id/menu_about"
+            android:title="@string/menu_about"
+            android:icon="@mipmap/ic_portrait_white_24dp"/>
+    </group>
+</menu>

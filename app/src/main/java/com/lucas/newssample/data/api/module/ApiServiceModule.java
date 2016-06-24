@@ -1,5 +1,6 @@
 package com.lucas.newssample.data.api.module;
 
+import com.google.gson.Gson;
 import com.lucas.newssample.data.api.ApiService;
 import com.lucas.newssample.utils.Constant;
 import com.squareup.okhttp.OkHttpClient;
@@ -12,6 +13,7 @@ import dagger.Module;
 import dagger.Provides;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
+import retrofit.converter.GsonConverter;
 
 /**
  * 作者：lucas on 2016/6/23 16:47
@@ -38,6 +40,7 @@ public class ApiServiceModule {
         return new RestAdapter.Builder()
                 .setClient(new OkClient(client))
                 .setEndpoint(Constant.HOST)
+                .setConverter(new GsonConverter(new Gson()))
                 .build();
     }
 

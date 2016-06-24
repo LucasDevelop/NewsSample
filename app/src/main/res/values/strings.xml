@@ -6,5 +6,8 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="title_activity_main">MainActivity</string>
-
+    <string name="menu_news">新闻</string>
+    <string name="menu_img">图片</string>
+    <string name="menu_weather">天气</string>
+    <string name="menu_about">关于</string>
 </resources>

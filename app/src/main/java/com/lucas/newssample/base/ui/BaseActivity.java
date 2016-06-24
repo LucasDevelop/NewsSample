@@ -26,6 +26,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         initView();
         mPresenter.attach(this);
         initData();
+        initEvent();
+    }
+
+    protected void initEvent() {
+
     }
 
     @Override

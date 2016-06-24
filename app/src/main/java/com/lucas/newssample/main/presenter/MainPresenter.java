@@ -1,5 +1,6 @@
 package com.lucas.newssample.main.presenter;
 
+import com.lucas.newssample.R;
 import com.lucas.newssample.base.presenter.BasePresenter;
 import com.lucas.newssample.main.ui.MainActivity;
 import com.lucas.newssample.main.view.MainView;
@@ -20,5 +21,24 @@ public class MainPresenter extends BasePresenter<MainView> {
 
     public void loadData(){
         mMainActivity.showLoading("Loading...");
+    }
+
+    public void switchNav(int itemId){
+        switch (itemId) {
+            case R.id.menu_news:
+                mMainActivity.switch2News();
+                break;
+            case R.id.menu_img:
+                mMainActivity.switch2Images();
+                break;
+            case R.id.menu_weather:
+                mMainActivity.switch2Weather();
+                break;
+            case R.id.menu_about:
+                mMainActivity.switch2About();
+                break;
+            default:
+                break;
+        }
     }
 }
