@@ -15,6 +15,7 @@ public class App extends Application {
 
     private Handler mHandler;
     private AppComponent mAppComponent;
+    private static App mApp;
 
     @Override
     public void onCreate() {
@@ -24,10 +25,11 @@ public class App extends Application {
                 .appModule(new AppModule(this))
                 .apiServiceModule(new ApiServiceModule())
                 .build();
+        mApp = this;
     }
 
-    public static App getApp(Context context){
-        return (App) context.getApplicationContext();
+    public static App getApp(){
+        return mApp;
     }
 
     public AppComponent getAppComponent(){

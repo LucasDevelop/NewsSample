@@ -20,7 +20,7 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     public void loadData(){
-        mMainActivity.showLoading("Loading...");
+//        mMainActivity.showLoading("Loading...");
     }
 
     public void switchNav(int itemId){

@@ -96,4 +96,6 @@ public class News {
             public String imgsrc;
         }
     }
+
+
 }

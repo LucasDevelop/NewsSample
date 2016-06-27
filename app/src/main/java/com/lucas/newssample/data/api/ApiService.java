@@ -11,6 +11,6 @@ import retrofit.http.GET;
  * 说明：Api
  */
 public interface ApiService {
-    @GET("nc/article/headline/T1348647909107/0-20.html")
+    @GET("/nc/article/headline/T1348647909107/0-20.html")
     void getNewsList(Callback<News> callback);
 }

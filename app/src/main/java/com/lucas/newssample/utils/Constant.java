@@ -15,7 +15,7 @@ public interface Constant {
 
     int PAZE_SIZE = 20;
 
-    String HOST = "http://c.m.163.com/";
+    String HOST = "http://c.m.163.com";
     String END_URL = "-" + PAZE_SIZE + ".html";
     String END_DETAIL_URL = "/full.html";
     // 头条

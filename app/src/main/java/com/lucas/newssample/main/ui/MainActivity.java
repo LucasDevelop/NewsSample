@@ -1,6 +1,5 @@
 package com.lucas.newssample.main.ui;
 
-import android.graphics.Color;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +16,7 @@ import com.lucas.newssample.main.component.DaggerMainComponent;
 import com.lucas.newssample.main.module.MainModule;
 import com.lucas.newssample.main.presenter.MainPresenter;
 import com.lucas.newssample.main.view.MainView;
+import com.lucas.newssample.news.ui.NewsFragment;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -41,11 +41,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         ButterKnife.inject(this);
         DaggerMainComponent.builder()
                 .mainModule(new MainModule(this))
-                .appComponent(App.getApp(this).getAppComponent())
+                .appComponent(App.getApp().getAppComponent())
                 .build().inject(this);
         //设置toolbar
         setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(Color.WHITE);
+//        toolbar.setTitleTextColor(Color.WHITE);
         drawerToggle = new ActionBarDrawerToggle(this, mainDraw, toolbar, R.string.drawer_open, R.string.drawer_close);
         //同步状态
         drawerToggle.syncState();
@@ -87,6 +87,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     @Override
     public void switch2News() {
         toolbar.setTitle(R.string.menu_news);
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_content,new NewsFragment()).commit();
     }
 
     @Override
