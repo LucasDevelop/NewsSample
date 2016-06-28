@@ -16,4 +16,5 @@ public interface NewsListView extends MvpView {
 
     void refreshData(List<News.T1348647909107Bean> data);
     void loadFailed(RetrofitError error);
+
 }

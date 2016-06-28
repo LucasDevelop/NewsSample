@@ -40,6 +40,7 @@ public class ApiServiceModule {
         return new RestAdapter.Builder()
                 .setClient(new OkClient(client))
                 .setEndpoint(Constant.HOST)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setConverter(new GsonConverter(new Gson()))
                 .build();
     }

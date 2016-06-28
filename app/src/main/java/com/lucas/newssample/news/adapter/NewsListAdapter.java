@@ -20,39 +20,71 @@ import java.util.List;
  * 邮箱：lucas_developer@163.com
  * 说明：
  */
-public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsHolder> {
+public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public static final int ITEM_FOOTER = 1;
+    public static final int ITEM_NORMAL = 0;
     private List<News.T1348647909107Bean> mData = new ArrayList<>();
+    private boolean mIsShowFooter;
+    private int mIndex;
 
     @Override
-    public NewsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View root = LayoutInflater.from(App.getApp()).inflate(R.layout.item_news_list,null);
-        return new NewsHolder(root);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == ITEM_NORMAL) {
+            View root = LayoutInflater.from(App.getApp()).inflate(R.layout.item_news_list, null);
+            return new NewsHolder(root);
+        } else {
+            View view = LayoutInflater.from(App.getApp()).inflate(R.layout.item_footer, null);
+            return new FooterHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(NewsHolder holder, int position) {
-        Picasso.with(App.getApp())
-                .load(mData.get(position).imgsrc)
-                .into(holder.mIcon);
-        holder.mTitle.setText(mData.get(position).title);
-        holder.mDes.setText(mData.get(position).digest);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (getItemViewType(position) == ITEM_NORMAL) {
+            NewsHolder newsHolder = (NewsHolder) holder;
+            Picasso.with(App.getApp())
+                    .load(mData.get(position).imgsrc)
+                    .into(newsHolder.mIcon);
+            newsHolder.mTitle.setText(mData.get(position).title);
+            newsHolder.mDes.setText(mData.get(position).digest);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mData != null ? mData.size() : 0;
+        return mData != null ? mData.size() + (mIsShowFooter ? 1 : 0) : 0;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return mIsShowFooter && position == getItemCount() - 1 ? ITEM_FOOTER : ITEM_NORMAL;
     }
 
     //加载数据
     public void loadData(List<News.T1348647909107Bean> data) {
         mData.clear();
         mData.addAll(data);
+        mIndex = mData.size();
         notifyDataSetChanged();
+    }
+
+    //显示于隐藏加载更多
+    public void isShowFooter(boolean isShowFooter) {
+        mIsShowFooter = isShowFooter;
+    }
+
+    public boolean isShowFooter() {
+        return mIsShowFooter;
+    }
+
+    public int getIndex(){
+        return mIndex;
     }
 
     //加载更多
     public void addData(List<News.T1348647909107Bean> data) {
         mData.addAll(data);
+        mIndex = mData.size();
         notifyDataSetChanged();
     }
 
@@ -67,6 +99,12 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsHo
             mIcon = (ImageView) itemView.findViewById(R.id.news_list_icon);
             mTitle = (TextView) itemView.findViewById(R.id.news_list_title);
             mDes = (TextView) itemView.findViewById(R.id.news_list_des);
+        }
+    }
+
+    public class FooterHolder extends RecyclerView.ViewHolder {
+        public FooterHolder(View itemView) {
+            super(itemView);
         }
     }
 }

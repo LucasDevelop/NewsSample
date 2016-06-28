@@ -13,17 +13,17 @@ public interface Constant {
 
     //http://c.m.163.com/nc/article/headline/T1348647909107/0-5.html  头条
 
-    int PAZE_SIZE = 20;
+    int PAGE_SIZE = 20;
 
     String HOST = "http://c.m.163.com";
-    String END_URL = "-" + PAZE_SIZE + ".html";
+    String END_URL = "-" + PAGE_SIZE + ".html";
     String END_DETAIL_URL = "/full.html";
     // 头条
-    String TOP_URL = HOST + "nc/article/headline/";
+    String TOP_URL = "nc/article/headline/";
     String TOP_ID = "T1348647909107";
     // 新闻详情
-    String NEW_DETAIL = HOST + "nc/article/";
-    String COMMON_URL = HOST + "nc/article/list/";
+    String NEW_DETAIL =  "nc/article/";
+    String COMMON_URL =  "nc/article/list/";
     // 汽车
     String CAR_ID = "T1348654060988";
     // 笑话

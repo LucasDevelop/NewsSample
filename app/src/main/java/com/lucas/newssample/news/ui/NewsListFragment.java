@@ -31,11 +31,11 @@ import retrofit.RetrofitError;
  * 邮箱：lucas_developer@163.com
  * 说明：新闻列表
  */
-public class NewsListFragment extends BaseFragment<NewsListPresenter> implements NewsListView{
-    public static int NEWS_TYPE_TOP = 0;//头条
-    public static int NEWS_TYPE_NBA = 1;//nba
-    public static int NEWS_TYPE_CARS = 2;//汽车
-    public static int NEWS_TYPE_JOKES = 3;//笑话
+public class NewsListFragment extends BaseFragment<NewsListPresenter> implements NewsListView {
+    public static final int NEWS_TYPE_TOP = 0;//头条
+    public static final int NEWS_TYPE_NBA = 1;//nba
+    public static final int NEWS_TYPE_CARS = 2;//汽车
+    public static final int NEWS_TYPE_JOKES = 3;//笑话
 
     public int type = NEWS_TYPE_TOP;
     @InjectView(R.id.news_list)
@@ -44,6 +44,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     SwipeRefreshLayout mNewsSwipe;
     private NewsRefreshListener mRefreshListener;
     private NewsListAdapter mAdapter;
+    private LinearLayoutManager mLayoutManager;
 
     //创建一个实例
     public static NewsListFragment newInstance(int type) {
@@ -77,9 +78,11 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         mNewsList.setHasFixedSize(true);
         //添加动画
         mNewsList.setItemAnimator(new DefaultItemAnimator());
-        mNewsList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mNewsList.setLayoutManager(mLayoutManager);
         mAdapter = new NewsListAdapter();
         mNewsList.setAdapter(mAdapter);
+        mNewsList.setOnScrollListener(new NewsScrollListener());
         return rootView;
     }
 
@@ -90,20 +93,46 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     }
 
     @Override
+    public void hideLoading() {
+        super.hideLoading();
+        mNewsSwipe.setRefreshing(false);
+    }
+
+    @Override
     public void refreshData(List<News.T1348647909107Bean> data) {
+        //footer可显示
+        mAdapter.isShowFooter(true);
         mAdapter.loadData(data);
+        if (data == null || data.size() == 0)
+            mAdapter.isShowFooter(false);
     }
 
     @Override
     public void loadFailed(RetrofitError error) {
+        mNewsSwipe.setRefreshing(false);
         Toast.makeText(getActivity(), "error:" + error, Toast.LENGTH_SHORT).show();
     }
 
-    class NewsRefreshListener implements SwipeRefreshLayout.OnRefreshListener {
+    class NewsScrollListener extends RecyclerView.OnScrollListener {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+        }
 
         @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            //判断最后一个item是否显示并且是否是加载更多
+            int lastPosition = mLayoutManager.findLastVisibleItemPosition();
+//            if (mAdapter.isShowFooter() && mAdapter.getItemViewType(lastPosition) == NewsListAdapter.ITEM_FOOTER)
+//                mPresenter.
+        }
+    }
+
+    class NewsRefreshListener implements SwipeRefreshLayout.OnRefreshListener {
+        @Override
         public void onRefresh() {
-            mPresenter.loadData();
+            mPresenter.loadData(type, mAdapter.getIndex());
         }
     }
 }

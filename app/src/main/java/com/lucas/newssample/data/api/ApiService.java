@@ -4,6 +4,7 @@ import com.lucas.newssample.beans.News;
 
 import retrofit.Callback;
 import retrofit.http.GET;
+import retrofit.http.Path;
 
 /**
  * 作者：lucas on 2016/6/23 16:43
@@ -11,6 +12,6 @@ import retrofit.http.GET;
  * 说明：Api
  */
 public interface ApiService {
-    @GET("/nc/article/headline/T1348647909107/0-20.html")
-    void getNewsList(Callback<News> callback);
+    @GET("/{endUrl}")
+    News getNewsList(@Path("endUrl") String endUrl);
 }
