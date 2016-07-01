@@ -1,6 +1,7 @@
 package com.lucas.newssample.news.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.lucas.newssample.App;
 import com.lucas.newssample.R;
 import com.lucas.newssample.beans.News;
+import com.lucas.newssample.utils.Constant;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,9 +25,10 @@ import java.util.List;
 public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int ITEM_FOOTER = 1;
     public static final int ITEM_NORMAL = 0;
-    private List<News.T1348647909107Bean> mData = new ArrayList<>();
+    private List<News> mData = new ArrayList<>();
     private boolean mIsShowFooter;
     private int mIndex;
+    private NewsItemClickListener mListener;
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -50,6 +53,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
+    public News getNew(int position){
+        return mData.get(position);
+    }
+
     @Override
     public int getItemCount() {
         return mData != null ? mData.size() + (mIsShowFooter ? 1 : 0) : 0;
@@ -61,10 +68,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     //加载数据
-    public void loadData(List<News.T1348647909107Bean> data) {
+    public void loadData(List<News> data) {
         mData.clear();
         mData.addAll(data);
-        mIndex = mData.size();
+        mIndex += Constant.PAGE_SIZE;
         notifyDataSetChanged();
     }
 
@@ -77,15 +84,27 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return mIsShowFooter;
     }
 
-    public int getIndex(){
+    public int getIndex() {
         return mIndex;
     }
 
     //加载更多
-    public void addData(List<News.T1348647909107Bean> data) {
+    public void addData(List<News> data) {
         mData.addAll(data);
-        mIndex = mData.size();
+        mIndex += Constant.PAGE_SIZE;
+        //没有更多数据，不显示footer
+        if (data.size() == 0)
+            mIsShowFooter = false;
         notifyDataSetChanged();
+    }
+
+    //设置监听
+    public void setOnItemClickListener(NewsItemClickListener listener) {
+        mListener = listener;
+    }
+
+    public interface NewsItemClickListener {
+        void onItemClick(View view, int position);
     }
 
     public class NewsHolder extends RecyclerView.ViewHolder {
@@ -99,6 +118,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mIcon = (ImageView) itemView.findViewById(R.id.news_list_icon);
             mTitle = (TextView) itemView.findViewById(R.id.news_list_title);
             mDes = (TextView) itemView.findViewById(R.id.news_list_des);
+            itemView.setOnClickListener(v -> mListener.onItemClick(v, getAdapterPosition()));
         }
     }
 

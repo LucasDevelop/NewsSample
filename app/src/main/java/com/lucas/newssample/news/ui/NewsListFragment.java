@@ -1,11 +1,13 @@
 package com.lucas.newssample.news.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import com.lucas.newssample.news.component.DaggerNewsListComponent;
 import com.lucas.newssample.news.module.NewsListModule;
 import com.lucas.newssample.news.presenter.NewsListPresenter;
 import com.lucas.newssample.news.view.NewsListView;
+import com.lucas.newssample.utils.Constant;
 
 import java.util.List;
 
@@ -31,9 +34,9 @@ import retrofit.RetrofitError;
  * 邮箱：lucas_developer@163.com
  * 说明：新闻列表
  */
-public class NewsListFragment extends BaseFragment<NewsListPresenter> implements NewsListView {
+public class NewsListFragment extends BaseFragment<NewsListPresenter> implements NewsListView, NewsListAdapter.NewsItemClickListener {
     public static final int NEWS_TYPE_TOP = 0;//头条
-    public static final int NEWS_TYPE_NBA = 1;//nba
+    public static final int NEWS_TYPE_NBA = 1;//NBA
     public static final int NEWS_TYPE_CARS = 2;//汽车
     public static final int NEWS_TYPE_JOKES = 3;//笑话
 
@@ -83,6 +86,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         mAdapter = new NewsListAdapter();
         mNewsList.setAdapter(mAdapter);
         mNewsList.setOnScrollListener(new NewsScrollListener());
+        mAdapter.setOnItemClickListener(this);
         return rootView;
     }
 
@@ -99,7 +103,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     }
 
     @Override
-    public void refreshData(List<News.T1348647909107Bean> data) {
+    public void refreshData(List<News> data) {
         //footer可显示
         mAdapter.isShowFooter(true);
         mAdapter.loadData(data);
@@ -113,6 +117,18 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         Toast.makeText(getActivity(), "error:" + error, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void loadMore(List<News> data) {
+        mAdapter.addData(data);
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+        intent.putExtra("news",mAdapter.getNew(position));
+        startActivity(intent);
+    }
+
     class NewsScrollListener extends RecyclerView.OnScrollListener {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -124,15 +140,16 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
             super.onScrollStateChanged(recyclerView, newState);
             //判断最后一个item是否显示并且是否是加载更多
             int lastPosition = mLayoutManager.findLastVisibleItemPosition();
-//            if (mAdapter.isShowFooter() && mAdapter.getItemViewType(lastPosition) == NewsListAdapter.ITEM_FOOTER)
-//                mPresenter.
+            if (newState == RecyclerView.SCROLL_STATE_IDLE && mAdapter.isShowFooter() && mAdapter.getItemViewType(lastPosition) == NewsListAdapter.ITEM_FOOTER) {
+                mPresenter.loadData(type, mAdapter.getIndex() + Constant.PAGE_SIZE);
+            }
         }
     }
 
     class NewsRefreshListener implements SwipeRefreshLayout.OnRefreshListener {
         @Override
         public void onRefresh() {
-            mPresenter.loadData(type, mAdapter.getIndex());
+            mPresenter.loadData(type, 0);
         }
     }
 }

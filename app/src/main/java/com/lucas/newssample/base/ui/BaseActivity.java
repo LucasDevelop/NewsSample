@@ -24,6 +24,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
+        if (mPresenter!=null)
         mPresenter.attach(this);
         initData();
         initEvent();
@@ -37,6 +38,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected void onDestroy() {
         super.onDestroy();
         //解除关联
+        if (mPresenter!=null)
         mPresenter.detach();
     }
 

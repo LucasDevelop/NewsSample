@@ -1,8 +1,7 @@
 package com.lucas.newssample.data.api;
 
-import com.lucas.newssample.beans.News;
 
-import retrofit.Callback;
+import retrofit.client.Response;
 import retrofit.http.GET;
 import retrofit.http.Path;
 
@@ -13,5 +12,5 @@ import retrofit.http.Path;
  */
 public interface ApiService {
     @GET("/{endUrl}")
-    News getNewsList(@Path("endUrl") String endUrl);
+    Response getNewsList(@Path("endUrl") String endUrl);
 }

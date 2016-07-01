@@ -19,7 +19,7 @@ public class NewsListModule {
     }
 
     @Provides
-    NewsListFragment providesNewsListFragment(){
+    NewsListFragment provideNewsListFragment(){
         return mFragment;
     }
 }

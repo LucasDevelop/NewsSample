@@ -14,7 +14,7 @@ import retrofit.RetrofitError;
  */
 public interface NewsListView extends MvpView {
 
-    void refreshData(List<News.T1348647909107Bean> data);
+    void refreshData(List<News> data);
     void loadFailed(RetrofitError error);
-
+    void loadMore(List<News> data);
 }

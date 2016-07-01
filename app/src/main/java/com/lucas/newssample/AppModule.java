@@ -21,7 +21,7 @@ public class AppModule {
     //单列
     @Singleton
     @Provides
-    App providerApp(){
+    App provideApp(){
         return mApp;
     }
 }
