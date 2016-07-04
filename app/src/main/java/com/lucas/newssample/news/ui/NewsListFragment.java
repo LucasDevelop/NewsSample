@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.lucas.newssample.AppComponent;
 import com.lucas.newssample.R;
 import com.lucas.newssample.base.ui.BaseFragment;
 import com.lucas.newssample.beans.News;
@@ -66,10 +67,15 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
 
 
     @Override
-    protected View initView() {
+    protected void setupComponent(AppComponent appComponent) {
         DaggerNewsListComponent.builder()
                 .newsListModule(new NewsListModule(this))
+                .appComponent(appComponent)
                 .build().inject(this);
+    }
+
+    @Override
+    protected View initView() {
         View rootView = View.inflate(getActivity(), R.layout.fragment_news_list, null);
         ButterKnife.inject(this, rootView);
         //设置下拉刷新颜色

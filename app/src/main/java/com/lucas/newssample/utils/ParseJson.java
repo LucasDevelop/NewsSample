@@ -3,7 +3,12 @@ package com.lucas.newssample.utils;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.lucas.newssample.App;
 import com.lucas.newssample.beans.News;
+import com.lucas.newssample.beans.NewsDetail;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,5 +58,14 @@ public abstract class ParseJson {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public static NewsDetail parseNewsDetail(Response response, String id) {
+        TypedByteArray body = (TypedByteArray) response.getBody();
+        String s = new String(body.getBytes());
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = parser.parse(s).getAsJsonObject();
+        JsonElement element = jsonObject.get(id);
+        return App.getAppComponent().getGson().fromJson(element, NewsDetail.class);
     }
 }

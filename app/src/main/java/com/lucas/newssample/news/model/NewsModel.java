@@ -4,19 +4,19 @@ import android.util.Log;
 
 import com.lucas.newssample.App;
 import com.lucas.newssample.able.OnLoadDataListener;
-import com.lucas.newssample.beans.News;
+import com.lucas.newssample.beans.NewsDetail;
 import com.lucas.newssample.news.ui.NewsListFragment;
 import com.lucas.newssample.utils.Constant;
 import com.lucas.newssample.utils.ParseJson;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
 import retrofit.client.Response;
 import rx.Observable;
+import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -37,7 +37,7 @@ public class NewsModel {
         Observable
                 .just(endUrl)
                 .map(s -> {
-                    Response response = App.getApp().getAppComponent().getApiService().getNewsList(s);
+                    Response response = App.getAppComponent().getApiService().getNewsList(s);
                     Log.d("NewsListPresenter", response.getUrl());
                     return ParseJson.parseNews(response, getNewsId(newsType));
                 })
@@ -48,6 +48,27 @@ public class NewsModel {
                 }, throwable -> {
                     listener.onError(throwable.toString(), 0);
                 });
+    }
+
+    public void getNewsDetail(String id, OnLoadDataListener listener) {
+        String url = getDetailUrl(id);
+        Observable.just(url)
+                .map(s -> {
+                    Response response = App.getAppComponent().getApiService().getNewsDetail(url);
+                    NewsDetail bean = ParseJson.parseNewsDetail(response,id);
+                    return bean;
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(newsDetail -> {
+                    listener.onSuccess(newsDetail);
+                },throwable -> listener.onError(throwable.toString(),0));
+    }
+
+    private String getDetailUrl(String id) {
+        StringBuilder builder = new StringBuilder(Constant.NEW_DETAIL);
+        builder.append(id).append(Constant.END_DETAIL_URL);
+        return builder.toString();
     }
 
     private String getUrl(int newsType, int limit) {

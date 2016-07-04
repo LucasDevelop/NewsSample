@@ -6,6 +6,8 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.lucas.newssample.App;
+import com.lucas.newssample.AppComponent;
 import com.lucas.newssample.base.presenter.BasePresenter;
 import com.lucas.newssample.base.view.MvpView;
 
@@ -23,12 +25,15 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initView();
+        setupComponent(App.getAppComponent());
         if (mPresenter!=null)
         mPresenter.attach(this);
+        initView();
         initData();
         initEvent();
     }
+
+    protected abstract void setupComponent(AppComponent appComponent);
 
     protected void initEvent() {
 

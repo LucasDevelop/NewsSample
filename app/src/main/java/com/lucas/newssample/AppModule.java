@@ -1,5 +1,9 @@
 package com.lucas.newssample;
 
+import android.os.Handler;
+
+import com.google.gson.Gson;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -23,6 +27,20 @@ public class AppModule {
     @Provides
     App provideApp(){
         return mApp;
+    }
+
+    //解析器
+    @Singleton
+    @Provides
+    Gson provideGson(){
+        return new Gson();
+    }
+
+    //handler
+    @Singleton
+    @Provides
+    Handler provideHandler(){
+        return new Handler();
     }
 }
 

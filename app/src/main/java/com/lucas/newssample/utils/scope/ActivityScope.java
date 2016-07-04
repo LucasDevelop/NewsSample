@@ -1,4 +1,7 @@
-package com.lucas.newssample.main;
+package com.lucas.newssample.utils.scope;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import javax.inject.Scope;
 
@@ -8,5 +11,6 @@ import javax.inject.Scope;
  * 说明：
  */
 @Scope
+@Retention(RetentionPolicy.RUNTIME)
 public @interface ActivityScope {
 }

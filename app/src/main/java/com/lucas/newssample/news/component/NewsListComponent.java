@@ -1,7 +1,9 @@
 package com.lucas.newssample.news.component;
 
+import com.lucas.newssample.AppComponent;
 import com.lucas.newssample.news.module.NewsListModule;
 import com.lucas.newssample.news.ui.NewsListFragment;
+import com.lucas.newssample.utils.scope.FragmentScope;
 
 import dagger.Component;
 
@@ -10,8 +12,8 @@ import dagger.Component;
  * 邮箱：lucas_developer@163.com
  * 说明：
  */
-@Component(modules = NewsListModule.class)
+@FragmentScope
+@Component(modules = NewsListModule.class, dependencies = AppComponent.class)
 public interface NewsListComponent {
-    NewsListFragment getNewsListFragment();
     void inject(NewsListFragment fragment);
 }

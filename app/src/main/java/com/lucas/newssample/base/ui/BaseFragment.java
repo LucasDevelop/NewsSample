@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lucas.newssample.App;
+import com.lucas.newssample.AppComponent;
 import com.lucas.newssample.base.presenter.BasePresenter;
 import com.lucas.newssample.base.view.MvpView;
 
@@ -25,19 +27,29 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        setupComponent(App.getAppComponent());
         return baseInit();
     }
 
+    //设置组件
+    protected abstract void setupComponent(AppComponent appComponent);
+
     private View baseInit() {
+        mPresenter.attach(this);
         View view = initView();
         initData();
-        mPresenter.attach(this);
         return view;
     }
 
     protected abstract View initView();
 
     protected abstract void initData();
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.detach();
+    }
 
     @Override
     public void showLoading(String msg) {

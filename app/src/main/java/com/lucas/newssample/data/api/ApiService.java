@@ -13,4 +13,7 @@ import retrofit.http.Path;
 public interface ApiService {
     @GET("/{endUrl}")
     Response getNewsList(@Path("endUrl") String endUrl);
+
+    @GET("/{endUrl}")
+    Response getNewsDetail(@Path("endUrl") String endUrl);
 }

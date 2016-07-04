@@ -10,8 +10,10 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.lucas.newssample.App;
+import com.lucas.newssample.AppComponent;
 import com.lucas.newssample.R;
 import com.lucas.newssample.base.ui.BaseActivity;
+import com.lucas.newssample.images.ImagesFragment;
 import com.lucas.newssample.main.component.DaggerMainComponent;
 import com.lucas.newssample.main.module.MainModule;
 import com.lucas.newssample.main.presenter.MainPresenter;
@@ -36,13 +38,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     private ActionBarDrawerToggle drawerToggle;
 
     @Override
+    protected void setupComponent(AppComponent appComponent) {
+        DaggerMainComponent.builder()
+                .mainModule(new MainModule(this))
+                .appComponent(App.getAppComponent())
+                .build().inject(this);
+    }
+
+    @Override
     protected void initView() {
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-        DaggerMainComponent.builder()
-                .mainModule(new MainModule(this))
-                .appComponent(App.getApp().getAppComponent())
-                .build().inject(this);
         //设置toolbar
         setSupportActionBar(toolbar);
 //        toolbar.setTitleTextColor(Color.WHITE);
@@ -58,6 +64,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     protected void initData() {
         mPresenter.loadData();
     }
+
 
     @Override
     protected void initEvent() {
@@ -86,12 +93,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     public void switch2News() {
-        toolbar.setTitle(R.string.menu_news);
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_content,new NewsFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_content, new NewsFragment()).commit();
+        App.getAppComponent().getHandler().postDelayed(() -> toolbar.setTitle(R.string.menu_news), 10);
     }
 
     @Override
     public void switch2Images() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_content,new ImagesFragment()).commit();
         toolbar.setTitle(R.string.menu_img);
     }
 

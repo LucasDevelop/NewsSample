@@ -14,7 +14,7 @@ import com.lucas.newssample.data.api.module.ApiServiceModule;
 public class App extends Application {
 
     private Handler mHandler;
-    private AppComponent mAppComponent;
+    private static AppComponent mAppComponent;
     private static App mApp;
 
     @Override
@@ -32,11 +32,13 @@ public class App extends Application {
         return mApp;
     }
 
-    public AppComponent getAppComponent(){
+    public static AppComponent getAppComponent(){
         return mAppComponent;
     }
 
     public Handler getUIHandler(){
         return mHandler;
     }
+
+
 }

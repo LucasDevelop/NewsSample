@@ -8,5 +8,6 @@ import com.lucas.newssample.base.view.MvpView;
  * 说明：
  */
 public interface NewsDetailView extends MvpView {
-
+    void isShowProgress(boolean isShow);
+    void loadContent(String body);
 }

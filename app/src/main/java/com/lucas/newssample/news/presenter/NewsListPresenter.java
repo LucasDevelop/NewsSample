@@ -1,27 +1,17 @@
 package com.lucas.newssample.news.presenter;
 
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.lucas.newssample.App;
 import com.lucas.newssample.able.OnLoadDataListener;
 import com.lucas.newssample.base.presenter.BasePresenter;
 import com.lucas.newssample.base.view.MvpView;
 import com.lucas.newssample.beans.News;
 import com.lucas.newssample.news.model.NewsModel;
 import com.lucas.newssample.news.ui.NewsListFragment;
-import com.lucas.newssample.utils.Constant;
-import com.lucas.newssample.utils.ParseJson;
-
 
 import java.util.List;
 
 import javax.inject.Inject;
-
-import retrofit.client.Response;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * 作者：lucas on 2016/6/27 14:58
@@ -55,5 +45,4 @@ public class NewsListPresenter extends BasePresenter<MvpView> {
            }
        });
     }
-
 }
