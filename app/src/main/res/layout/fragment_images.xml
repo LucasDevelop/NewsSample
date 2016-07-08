@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                              xmlns:app="http://schemas.android.com/apk/res-auto"
                                               android:id="@+id/refresh"
                                               android:layout_width="match_parent"
                                               android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="5dp"
+            android:scrollbars="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="60dp"
+            android:layout_marginRight="10dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:src="@android:drawable/ic_popup_sync"
+            app:backgroundTint="@color/primary"
+            app:rippleColor="@color/primary_dark"
+            app:elevation="6dp"
+            android:clickable="true"
+            app:pressedTranslationZ="12dp"
+            />
+    </RelativeLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>

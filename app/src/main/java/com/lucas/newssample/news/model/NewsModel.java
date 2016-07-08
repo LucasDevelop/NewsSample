@@ -11,12 +11,9 @@ import com.lucas.newssample.utils.ParseJson;
 
 import javax.inject.Inject;
 
-import retrofit.client.Response;
+import retrofit2.Response;
 import rx.Observable;
-import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -38,7 +35,6 @@ public class NewsModel {
                 .just(endUrl)
                 .map(s -> {
                     Response response = App.getAppComponent().getApiService().getNewsList(s);
-                    Log.d("NewsListPresenter", response.getUrl());
                     return ParseJson.parseNews(response, getNewsId(newsType));
                 })
                 .subscribeOn(Schedulers.io())

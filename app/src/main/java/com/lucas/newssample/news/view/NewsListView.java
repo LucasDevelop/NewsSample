@@ -5,7 +5,6 @@ import com.lucas.newssample.beans.News;
 
 import java.util.List;
 
-import retrofit.RetrofitError;
 
 /**
  * 作者：lucas on 2016/6/27 16:14
@@ -15,6 +14,6 @@ import retrofit.RetrofitError;
 public interface NewsListView extends MvpView {
 
     void refreshData(List<News> data);
-    void loadFailed(RetrofitError error);
+    void loadFailed(Exception error);
     void loadMore(List<News> data);
 }

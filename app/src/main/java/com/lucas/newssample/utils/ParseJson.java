@@ -1,12 +1,11 @@
 package com.lucas.newssample.utils;
 
-import android.graphics.Bitmap;
-import android.text.TextUtils;
-
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.lucas.newssample.App;
+import com.lucas.newssample.beans.Images;
 import com.lucas.newssample.beans.News;
 import com.lucas.newssample.beans.NewsDetail;
 
@@ -15,11 +14,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit.client.Response;
-import retrofit.mime.TypedByteArray;
+import retrofit2.Response;
 
 /**
  * 作者：lucas on 2016/6/29 11:28
@@ -29,8 +28,7 @@ import retrofit.mime.TypedByteArray;
 public abstract class ParseJson {
     public static List<News> parseNews(Response response, String id) {
         ArrayList<News> list = new ArrayList<>();
-        TypedByteArray body = (TypedByteArray) response.getBody();
-        String json = new String(body.getBytes());
+        String json = response.body().toString();
         JSONTokener jsonTokener = new JSONTokener(json);
         try {
             JSONObject value = (JSONObject) jsonTokener.nextValue();
@@ -61,11 +59,22 @@ public abstract class ParseJson {
     }
 
     public static NewsDetail parseNewsDetail(Response response, String id) {
-        TypedByteArray body = (TypedByteArray) response.getBody();
-        String s = new String(body.getBytes());
+        String s =  response.body().toString();
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(s).getAsJsonObject();
         JsonElement element = jsonObject.get(id);
         return App.getAppComponent().getGson().fromJson(element, NewsDetail.class);
+    }
+
+    public static List<Images> parseImages(Response response) throws IOException {
+        String string = response.body().toString();
+        JsonParser parser = new JsonParser();
+        JsonArray object = parser.parse(string).getAsJsonArray();
+        List<Images> images = new ArrayList<>();
+        for (int i = 0; i < object.size(); i++) {
+            JsonObject jsonObject = object.get(i).getAsJsonObject();
+            images.add(App.getAppComponent().getGson().fromJson(jsonObject,Images.class));
+        }
+        return images;
     }
 }

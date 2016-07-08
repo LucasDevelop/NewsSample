@@ -13,14 +13,12 @@ import com.lucas.newssample.data.api.module.ApiServiceModule;
  */
 public class App extends Application {
 
-    private Handler mHandler;
     private static AppComponent mAppComponent;
     private static App mApp;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mHandler = new Handler();
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .apiServiceModule(new ApiServiceModule())
@@ -34,10 +32,6 @@ public class App extends Application {
 
     public static AppComponent getAppComponent(){
         return mAppComponent;
-    }
-
-    public Handler getUIHandler(){
-        return mHandler;
     }
 
 

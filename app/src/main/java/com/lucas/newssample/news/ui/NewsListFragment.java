@@ -28,7 +28,6 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import retrofit.RetrofitError;
 
 /**
  * 作者：lucas on 2016/6/27 09:49
@@ -118,7 +117,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     }
 
     @Override
-    public void loadFailed(RetrofitError error) {
+    public void loadFailed(Exception error) {
         mNewsSwipe.setRefreshing(false);
         Toast.makeText(getActivity(), "error:" + error, Toast.LENGTH_SHORT).show();
     }

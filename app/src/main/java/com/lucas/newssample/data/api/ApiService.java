@@ -1,9 +1,11 @@
 package com.lucas.newssample.data.api;
 
 
-import retrofit.client.Response;
-import retrofit.http.GET;
-import retrofit.http.Path;
+import com.lucas.newssample.utils.Constant;
+
+import retrofit2.Response;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 /**
  * 作者：lucas on 2016/6/23 16:43
@@ -16,4 +18,8 @@ public interface ApiService {
 
     @GET("/{endUrl}")
     Response getNewsDetail(@Path("endUrl") String endUrl);
+
+    @GET(Constant.IMAGES_URL)
+    Response getImageList();
+
 }
