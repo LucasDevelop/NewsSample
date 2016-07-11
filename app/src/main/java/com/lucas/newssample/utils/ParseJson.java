@@ -18,7 +18,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Response;
+import okhttp3.ResponseBody;
+
 
 /**
  * 作者：lucas on 2016/6/29 11:28
@@ -26,9 +27,14 @@ import retrofit2.Response;
  * 说明：json 解析
  */
 public abstract class ParseJson {
-    public static List<News> parseNews(Response response, String id) {
+    public static List<News> parseNews(ResponseBody response, String id) {
         ArrayList<News> list = new ArrayList<>();
-        String json = response.body().toString();
+        String json = null;
+        try {
+            json = response.string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         JSONTokener jsonTokener = new JSONTokener(json);
         try {
             JSONObject value = (JSONObject) jsonTokener.nextValue();
@@ -58,16 +64,21 @@ public abstract class ParseJson {
         return list;
     }
 
-    public static NewsDetail parseNewsDetail(Response response, String id) {
-        String s =  response.body().toString();
+    public static NewsDetail parseNewsDetail(ResponseBody response, String id) {
+        String s = null;
+        try {
+            s = response.string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(s).getAsJsonObject();
         JsonElement element = jsonObject.get(id);
         return App.getAppComponent().getGson().fromJson(element, NewsDetail.class);
     }
 
-    public static List<Images> parseImages(Response response) throws IOException {
-        String string = response.body().toString();
+    public static List<Images> parseImages(ResponseBody response) throws IOException {
+        String string = response.string();
         JsonParser parser = new JsonParser();
         JsonArray object = parser.parse(string).getAsJsonArray();
         List<Images> images = new ArrayList<>();

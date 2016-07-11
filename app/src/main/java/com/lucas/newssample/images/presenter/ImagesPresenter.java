@@ -40,6 +40,7 @@ public class ImagesPresenter extends BasePresenter<ImagesView> implements OnLoad
 
     @Override
     public void onError(String msg, int errorCode) {
+        Log.d("ImagesPresenter", msg);
         mFragment.showFailedMsg(msg);
     }
 }

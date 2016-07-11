@@ -4,14 +4,15 @@ import android.util.Log;
 
 import com.lucas.newssample.App;
 import com.lucas.newssample.able.OnLoadDataListener;
-import com.lucas.newssample.beans.NewsDetail;
 import com.lucas.newssample.news.ui.NewsListFragment;
 import com.lucas.newssample.utils.Constant;
 import com.lucas.newssample.utils.ParseJson;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 
-import retrofit2.Response;
+import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -34,7 +35,12 @@ public class NewsModel {
         Observable
                 .just(endUrl)
                 .map(s -> {
-                    Response response = App.getAppComponent().getApiService().getNewsList(s);
+                    ResponseBody response = null;
+                    try {
+                        response = App.getAppComponent().getApiService().getNewsList(s).execute().body();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     return ParseJson.parseNews(response, getNewsId(newsType));
                 })
                 .subscribeOn(Schedulers.io())
@@ -50,9 +56,13 @@ public class NewsModel {
         String url = getDetailUrl(id);
         Observable.just(url)
                 .map(s -> {
-                    Response response = App.getAppComponent().getApiService().getNewsDetail(url);
-                    NewsDetail bean = ParseJson.parseNewsDetail(response,id);
-                    return bean;
+                    ResponseBody response = null;
+                    try {
+                        response = App.getAppComponent().getApiService().getNewsDetail(url).execute().body();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return ParseJson.parseNewsDetail(response,id);
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

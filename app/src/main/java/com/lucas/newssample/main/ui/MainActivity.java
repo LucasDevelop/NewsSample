@@ -19,6 +19,7 @@ import com.lucas.newssample.main.module.MainModule;
 import com.lucas.newssample.main.presenter.MainPresenter;
 import com.lucas.newssample.main.view.MainView;
 import com.lucas.newssample.news.ui.NewsFragment;
+import com.lucas.newssample.weather.ui.WeatherFragment;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -105,6 +106,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     public void switch2Weather() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_content,new WeatherFragment()).commit();
         toolbar.setTitle(R.string.menu_weather);
     }
 

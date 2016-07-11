@@ -8,4 +8,5 @@ import com.lucas.newssample.base.view.MvpView;
  * 说明：
  */
 public interface WeatherView extends MvpView {
+    void setCityName(String cityName);
 }

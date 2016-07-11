@@ -18,6 +18,7 @@ import javax.inject.Inject;
  * 邮箱：lucas_developer@163.com
  * 说明：
  */
+
 public class NewsDetailPresenter extends BasePresenter<MvpView> {
     private NewsDetailActivity mActivity;
     @Inject

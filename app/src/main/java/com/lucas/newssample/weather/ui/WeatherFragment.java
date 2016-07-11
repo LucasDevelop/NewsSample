@@ -12,8 +12,10 @@ import com.lucas.newssample.AppComponent;
 import com.lucas.newssample.R;
 import com.lucas.newssample.base.ui.BaseFragment;
 import com.lucas.newssample.weather.component.DaggerWeatherComponent;
+import com.lucas.newssample.weather.model.WeatherModel;
 import com.lucas.newssample.weather.module.WeatherModule;
 import com.lucas.newssample.weather.presenter.WeatherPresenter;
+import com.lucas.newssample.weather.view.WeatherView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -23,7 +25,7 @@ import butterknife.InjectView;
  * 邮箱：lucas_developer@163.com
  * 说明：天气
  */
-public class WeatherFragment extends BaseFragment<WeatherPresenter> {
+public class WeatherFragment extends BaseFragment<WeatherPresenter> implements WeatherView{
     @InjectView(R.id.address)
     TextView mAddress;
     @InjectView(R.id.datetime)
@@ -56,7 +58,11 @@ public class WeatherFragment extends BaseFragment<WeatherPresenter> {
 
     @Override
     protected void initData() {
-
+        mPresenter.loadDate();
     }
 
+    @Override
+    public void setCityName(String cityName) {
+        mAddress.setText(cityName);
+    }
 }

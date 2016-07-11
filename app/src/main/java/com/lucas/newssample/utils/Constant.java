@@ -35,6 +35,6 @@ public interface Constant {
     // 天气预报url
     String WEATHER = "http://wthrcdn.etouch.cn/weather_mini?city=";
     //百度定位
-    String INTERFACE_LOCATION = "http://api.map.baidu.com/geocoder";
+    String INTERFACE_LOCATION = "http://api.map.baidu.com/geocoder?output=json&referer=32D45CBEEC107315C553AD1131915D366EEF79B4&location=";
 
 }

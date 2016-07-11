@@ -3,7 +3,8 @@ package com.lucas.newssample.data.api;
 
 import com.lucas.newssample.utils.Constant;
 
-import retrofit2.Response;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
@@ -13,13 +14,15 @@ import retrofit2.http.Path;
  * 说明：Api
  */
 public interface ApiService {
-    @GET("/{endUrl}")
-    Response getNewsList(@Path("endUrl") String endUrl);
+    @GET("{endUrl}")
+    Call<ResponseBody> getNewsList(@Path("endUrl") String endUrl);
 
-    @GET("/{endUrl}")
-    Response getNewsDetail(@Path("endUrl") String endUrl);
+    @GET("{endUrl}")
+    Call<ResponseBody> getNewsDetail(@Path("endUrl") String endUrl);
 
     @GET(Constant.IMAGES_URL)
-    Response getImageList();
+    Call<ResponseBody> getImageList();
 
+    @GET(Constant.INTERFACE_LOCATION+"{location}")
+    Call<String> getCityName(@Path(("location")) String location);
 }

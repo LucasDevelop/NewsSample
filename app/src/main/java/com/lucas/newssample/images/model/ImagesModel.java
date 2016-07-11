@@ -5,13 +5,14 @@ import com.lucas.newssample.able.OnLoadDataListener;
 import com.lucas.newssample.beans.Images;
 import com.lucas.newssample.utils.Constant;
 import com.lucas.newssample.utils.ParseJson;
+
+import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -33,7 +34,12 @@ public class ImagesModel {
     public void loadData(OnLoadDataListener listener){
         Observable.just(Constant.IMAGES_URL)
                 .map(s -> {
-                    retrofit2.Response imageList = App.getAppComponent().getApiService().getImageList();
+                    ResponseBody imageList = null;
+                    try {
+                        imageList = App.getAppComponent().getApiService().getImageList().execute().body();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     List<Images> images = null;
                     try {
                         images =  ParseJson.parseImages(imageList);
