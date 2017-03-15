@@ -6,7 +6,7 @@
 
 > 在Android开发中，Activity并不是一个标准的MVC模式中的Controller，它的首要职责是加载应用的布局和初始化用户界面，并接受并处理来自用户的操作请求，进而作出响应。随着界面及其逻辑的复杂度不断提升，Activity类的职责不断增加，以致变得庞大臃肿。当我们将其中复杂的逻辑处理移至另外的一个类（Presneter）中时，Activity其实就是MVP模式中View，它负责UI元素的初始化，建立UI元素与Presenter的关联（Listener之类），同时自己也会处理一些简单 的逻辑（复杂的逻辑交由Presenter处理）.
 
-![交互图](http://img.blog.csdn.net/20150309135723885? watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdmVjdG9yX3lp/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Sout> hEast)
+![](http://img.blog.csdn.net/20150309135723885?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdmVjdG9yX3lp/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 ## dagger2是什么？有什么优势？
 > Dagger2是Dagger的升级版，是一个依赖注入框架，现在由Google接手维护。 恩，这里有个关键字依赖注入，因此我们得先知道什么是依赖注入，才能更好的理解Dagger2。依赖注入是面向对象编程的一种设计模式，其目的是为了降低程序耦合，这个耦合就是类之间的依赖引起的。在mvp中，最常见的一种依赖关系，就是Activity持有presenter的引用，并在Activity中实例化这个presenter，即Activity依赖presenter，presenter又需要依赖View接口，从而更新UI。
