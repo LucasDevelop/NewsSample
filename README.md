@@ -9,7 +9,7 @@
 ![](http://img.blog.csdn.net/20150309135723885?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdmVjdG9yX3lp/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 ## dagger2是什么？有什么优势？
-> Dagger2是Dagger的升级版，是一个依赖注入框架，现在由Google接手维护。 恩，这里有个关键字依赖注入，因此我们得先知道什么是依赖注入，才能更好的理解Dagger2。依赖注入是面向对象编程的一种设计模式，其目的是为了降低程序耦合，这个耦合就是类之间的依赖引起的。在mvp中，最常见的一种依赖关系，就是Activity持有presenter的引用，并在Activity中实例化这个presenter，即Activity依赖presenter，presenter又需要依赖View接口，从而更新UI。
+> Dagger2是Dagger的升级版，是一个依赖注入框架，现在由Google接手维护。 这里有个关键字依赖注入，因此我们得先知道什么是依赖注入，才能更好的理解Dagger2。依赖注入是面向对象编程的一种设计模式，其目的是为了降低程序耦合，这个耦合就是类之间的依赖引起的。在mvp中，最常见的一种依赖关系，就是Activity持有presenter的引用，并在Activity中实例化这个presenter，即Activity依赖presenter，presenter又需要依赖View接口，从而更新UI。
 主要的注解:
 *	@Provides: 用来修饰方法，方法的返回类型就是所提供的依赖类型，可以简单的把方法的返回值理解为我们通常要new出来的对象.
 *	@Provides方法都会用provide作为前缀
